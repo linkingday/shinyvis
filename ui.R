@@ -1,7 +1,15 @@
 library(shiny)
 library(shinydashboard)
-library(leaflet)
+library(tidyverse)
+library(tidycensus)
+library(data.table)
+library(tigris)
+library(readxl)
 library(DT)
+library(ggplot2)
+library(psych)
+library(leaflet)
+library(plotly)
 
 dashboardPage(
   dashboardHeader(
@@ -26,12 +34,12 @@ dashboardPage(
               h2("Map of Entire U.S."),
               fluidRow(leafletOutput("map")),
               h3("Summaries and Plots"),
-              fluidRow(box(tableOutput('alltab')),
+              fluidRow(tabBox(title="Stats",
+                               tabPanel('General Summary', tableOutput('alltab')),
+                               tabPanel('Correlation Tests', tableOutput('cortest'))),
                          tabBox(title = "Plots", side = "right",
-                           tabPanel("Density Plot", plotlyOutput('dens')),
-                           tabPanel("Box Plot", plotlyOutput('boxp'))
-                           ))
-              ),
+                                tabPanel("Density Plot", plotlyOutput('dens')),
+                                tabPanel("Box Plot", plotlyOutput('boxp'))))),
       tabItem(tabName = "mapstates",
               splitLayout(
                 leafletOutput("mapstate"),

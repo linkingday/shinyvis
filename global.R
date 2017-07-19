@@ -8,12 +8,16 @@ library(readxl)
 library(DT)
 library(ggplot2)
 library(psych)
+library(leaflet)
+library(plotly)
 
 #setwd("~/DSA/RDA/Shiny/Project")
 
-census_api_key("ab278550a1784132f981997c48014f5614b9404b")
+#census_api_key("ab278550a1784132f981997c48014f5614b9404b")
 
-census <- get_acs(geography = "county", variables = c("B01002_001", "B06011_001"), year = 2014)
+load('./.RData')
+
+#census <- get_acs(geography = "county", variables = c("B01002_001", "B06011_001"), year = 2014)
 census$GEOID = as.integer(census$GEOID)
 
 cancercounties <- fread("./cancercounties.csv")
@@ -51,7 +55,7 @@ vars = vars %>%
 
 vars = vars[,c(1,2,3,7,4,6,5,8)]
 
-#counties <- counties(cb = TRUE, resolution = "20m"
+#counties <- counties(cb = TRUE, resolution = "20m")
 counties$GEOID = as.integer(counties$GEOID)
 
 fullmap = geo_join(counties, vars, by = "GEOID")
